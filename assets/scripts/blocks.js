@@ -33,7 +33,11 @@ Blockly.Blocks['question_asked'] = {
 };
 
 Blockly.JavaScript['question_asked'] = function (block) {
-  var dropdown_question = block.getFieldValue('question');
+
+  //Added javaScript so that Block only answers if the question block is connected to Bot block
+  const botBlock = Blockly.getMainWorkspace().getAllBlocks().find(block => block.type === "bot_messenger");
+  const questionBlock = botBlock.getInputTargetBlock("Bot");
+  var dropdown_question = questionBlock && questionBlock.getFieldValue("question");
   var questions;
   switch (dropdown_question) {
     case "date":
@@ -99,5 +103,4 @@ function reset() {
   Blockly.mainWorkspace.clear();
   redrawUi();
 }
-
 
